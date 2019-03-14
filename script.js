@@ -1,20 +1,21 @@
 function runOnKeys(func, ...codes) {
-  let downedCodes = [];
-  let downedId;
+  let downedCodes = new Set();
+  let clearId;
 
-  document.onkeydown = function(evt) {
-    if (evt.keyCode === codes[0]) {
-      clearTimeout(downedId);
-      downedCodes.push(codes[0]);
+  document.onkeydown = function({keyCode}) {
+    if (!codes.includes(keyCode)) return;
 
-      downedId = setTimeout(() => {
-        downedCodes.length = 0;
-      }, 100);
-    } else if (codes.includes(evt.keyCode) && downedCodes.length !== 0) {
-      downedCodes.push(evt.keyCode);
+    if (downedCodes.size === 0) {
+      downedCodes.add(keyCode);
 
-      if (downedCodes.length === codes.length) {
+      let cleaId = setTimeout(() => downedCodes.clear(), 300);
+    } else {
+      downedCodes.add(keyCode);
+
+      if (downedCodes.size === codes.length) {
         func();
+        clearTimeout(clearId);
+        downedCodes.clear();
       }
     }
   };
