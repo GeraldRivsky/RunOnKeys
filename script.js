@@ -8,7 +8,7 @@ function runOnKeys(func, ...codes) {
     if (downedCodes.size === 0) {
       downedCodes.add(keyCode);
 
-      let cleaId = setTimeout(() => downedCodes.clear(), 300);
+      clearId = setTimeout(() => downedCodes.clear(), 300);
     } else {
       downedCodes.add(keyCode);
 
